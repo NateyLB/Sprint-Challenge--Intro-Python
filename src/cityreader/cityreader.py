@@ -6,7 +6,7 @@ class City:
     self.lat = lat
     self.lon = lon
   def __str__(self):
-    return f"{self.name}: ({self.lat}, {self.lon})"
+    return f"{self.name}: ({self.lat},{self.lon})"
 
 
 # We have a collection of US cities with population over 750,000 stored in the
@@ -28,14 +28,16 @@ def cityreader(cities=[]):
   # For each city record, create a new City instance and add it to the 
   # `cities` list
   f = open("src/cityreader/cities.csv", "r")
+  #skip the first line
+  f.readline()
   for x in f:
     y = x.split(',')
-    cities.append(City((y[0], y[1]),y[3].strip(), y[4].strip()))
+    cities.append(City(y[0], float(y[3].strip()), float(y[4].strip())))
+  f.close()
     
   return cities
 
 cityreader(cities)
-del cities[0]
 
 # Print the list of cities (name, lat, lon), 1 record per line.
 for c in cities:
@@ -77,7 +79,7 @@ latLon1 = [float(x) for x in latLon1]
 latLon2 = [float(x) for x in latLon2]
 
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
-  # within will hold the cities that fall within the specified region
+#   # within will hold the cities that fall within the specified region
   if lat1 > lat2:
     top = lat1
     bottom = lat2
@@ -91,11 +93,11 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
     right = lon2
     left = lon1
   
-  within = [c for c in cities if (bottom < float(c.lat) < top) and (left < float(c.lon) < right)]
+  within = [c for c in cities if (bottom < c.lat < top) and (left < c.lon < right)]
 
-  # TODO Ensure that the lat and lon valuse are all floats
-  # Go through each city and check to see if it falls within 
-  # the specified coordinates.
+#   # TODO Ensure that the lat and lon valuse are all floats
+#   # Go through each city and check to see if it falls within 
+#   # the specified coordinates.
 
   return within
 
